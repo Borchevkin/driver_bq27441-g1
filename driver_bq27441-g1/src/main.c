@@ -66,7 +66,7 @@ uint8_t i2c_read_register(uint8_t addr,uint8_t reg_offset)
 	uint8_t data_array[1];
 
 	cmd_array[0] = reg_offset;
-	i2c_transfer(addr << 1, cmd_array, data_array, 1, 1, I2C_FLAG_WRITE_READ);
+	i2c_transfer(addr << 1, cmd_array, data_array, 1, 2, I2C_FLAG_WRITE_READ);
 	return data_array[0];
 }
 
@@ -89,6 +89,9 @@ int main(void)
 	/*bq2425x_t bq2425x;
 	bq2425x.ReadReg = i2c_read_register;*/
 
+	bq27441_g1_t bq27441_g1;
+	bq27441_g1.ReadReg = i2c_read_register;
+
 
 
 	while (1)
@@ -97,8 +100,9 @@ int main(void)
 
 		// BQ2425x_GetAllStates(&bq2425x);
 
-		uint16_t value = i2c_read_register(BQ27441_G1_ADDR, 0x21);
-
+		BQ27441_G1_GetTemperature(&bq27441_g1);
+		BQ27441_G1_GetNominalAvailableCapacity(&bq27441_g1);
+		BQ27441_G1_GetDesignCapacity(&bq27441_g1);
 
 		GPIO_PinOutSet(LED0_PORT, LED0_PIN);	//set LED0 to 1
 		DelayMs(1000);							//delay

@@ -4,6 +4,7 @@
  *  Created on: 24 рту. 2017 у.
  *      Author: user
  */
+#include <stdint.h>
 
 #ifndef INC_BQ27441_G1_H_
 #define INC_BQ27441_G1_H_
@@ -78,10 +79,10 @@ uint8_t BQ27441_G1_GetNominalAvailableCapacity(bq27441_g1_t * bq27441_g1);
 uint8_t BQ27441_G1_GetFullAvailiableCApacity(bq27441_g1_t * bq27441_g1);
 uint8_t BQ27441_G1_GetRemainingCapacity(bq27441_g1_t * bq27441_g1);
 uint8_t BQ27441_G1_GetFullChargeCapacity(bq27441_g1_t * bq27441_g1);
-int8_t BQ27441_G1_GetAvarageCurrent(bq27441_g1_t * bq27441_g1);
-int8_t BQ27441_G1_GetStandbyCurrent(bq27441_g1_t * bq27441_g1);
-int8_t BQ27441_G1_GetMaxloadCurrent(bq27441_g1_t * bq27441_g1);
-int8_t BQ27441_G1_GetAveragePower(bq27441_g1_t * bq27441_g1);
+int8_t  BQ27441_G1_GetAvarageCurrent(bq27441_g1_t * bq27441_g1);
+int8_t  BQ27441_G1_GetStandbyCurrent(bq27441_g1_t * bq27441_g1);
+int8_t  BQ27441_G1_GetMaxloadCurrent(bq27441_g1_t * bq27441_g1);
+int8_t  BQ27441_G1_GetAveragePower(bq27441_g1_t * bq27441_g1);
 uint8_t BQ27441_G1_GetSatateOfCharge(bq27441_g1_t * bq27441_g1);
 uint8_t BQ27441_G1_GetInternalTemperature(bq27441_g1_t * bq27441_g1);
 uint8_t BQ27441_G1_GetStateOfHealth(bq27441_g1_t * bq27441_g1);
@@ -90,6 +91,11 @@ uint8_t BQ27441_G1_GetRemainingCapacityFiltered(bq27441_g1_t * bq27441_g1);
 uint8_t BQ27441_G1_GetFullChargeCapacityUnfiltered(bq27441_g1_t * bq27441_g1);
 uint8_t BQ27441_G1_GetFullChargeCapacityFiltered(bq27441_g1_t * bq27441_g1);
 uint8_t BQ27441_G1_GetStateOfChargeUnfiltered(bq27441_g1_t * bq27441_g1);
+
+
+uint8_t BQ27441_G1_GetOpConfig(bq27441_g1_t * bq27441_g1);
+uint8_t BQ27441_G1_GetDesignCapacity(bq27441_g1_t * bq27441_g1);
+
 
 
 
