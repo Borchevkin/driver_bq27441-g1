@@ -67,11 +67,53 @@
 #define  BQ27441_G1_BLOCK_DATA_CHECKSUM_CMD				0x60
 #define  BQ27441_G1_BLOCK_DATA_CONTROL_CMD				0x61
 
+
+typedef struct {
+	//high byte
+	uint8_t ot;
+	uint8_t ut;
+	uint8_t fc;
+	uint8_t chg;
+	//low byte
+	uint8_t ocvtaken;
+	uint8_t itpor;
+	uint8_t cfgupmode;
+	uint8_t bat_det;
+	uint8_t soc1;
+	uint8_t socf;
+	uint8_t dsg;
+} flags_t;
+
+typedef struct {
+	//high byte
+	uint8_t shutdownen;
+	uint8_t wdreset;
+	uint8_t ss;
+	uint8_t calmode;
+	uint8_t cca;
+	uint8_t bca;
+	uint8_t qmax_up;
+	uint8_t res_up;
+	//low byte
+	uint8_t initcomp;
+	uint8_t hibernate;
+	uint8_t sleep;
+	uint8_t ldmd;
+	uint8_t rup_dis;
+	uint8_t vok;
+} control_status_t;
+
 typedef struct {
 	void (*WriteReg)(uint8_t addr, uint8_t reg_offset, uint8_t data);
-	uint8_t (*ReadReg)(uint8_t addr, uint8_t reg_offset);
+	uint16_t (*ReadReg)(uint8_t addr, uint8_t reg_offset);
+	flags_t flags;
+	control_status_t control_status;
 } bq27441_g1_t;
 
+
+
+void BQ27441_G1_ParseFlags(bq27441_g1_t * bq27441_g1, uint8_t regval);
+void BQ27441_G1_ParseControlStatus(bq27441_g1_t * bq27441_g1, uint8_t regval);
 float BQ27441_G1_GetTemperature(bq27441_g1_t * bq27441_g1);
 uint8_t BQ27441_G1_GetVoltage(bq27441_g1_t * bq27441_g1);
 uint8_t BQ27441_G1_GetFlags(bq27441_g1_t * bq27441_g1);
@@ -91,6 +133,8 @@ uint8_t BQ27441_G1_GetRemainingCapacityFiltered(bq27441_g1_t * bq27441_g1);
 uint8_t BQ27441_G1_GetFullChargeCapacityUnfiltered(bq27441_g1_t * bq27441_g1);
 uint8_t BQ27441_G1_GetFullChargeCapacityFiltered(bq27441_g1_t * bq27441_g1);
 uint8_t BQ27441_G1_GetStateOfChargeUnfiltered(bq27441_g1_t * bq27441_g1);
+
+void BQ27441_G1_GetControlStatus(bq27441_g1_t * bq27441_g1);
 
 
 uint8_t BQ27441_G1_GetOpConfig(bq27441_g1_t * bq27441_g1);
