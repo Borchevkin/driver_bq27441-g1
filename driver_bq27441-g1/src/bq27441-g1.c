@@ -51,109 +51,153 @@ float BQ27441_G1_GetTemperature(bq27441_g1_t * bq27441_g1)
 	uint16_t buffer;
 	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_TEMPERATURE_CMD);
 
-	//
+	//Kelvin to Celsius
 	result = ((float) buffer * 0.1) - 273;
 
 	return result;
 }
-uint8_t BQ27441_G1_GetVoltage(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetVoltage(bq27441_g1_t * bq27441_g1)
 {
-	uint8_t buffer;
+	uint16_t buffer;
 	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_VOLTAGE_CMD);
 	return buffer;
 }
-uint8_t BQ27441_G1_GetFlags(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetFlags(bq27441_g1_t * bq27441_g1)
 {
-	uint8_t buffer;
+	uint16_t buffer;
 	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_FLAGS_CMD);
 	BQ27441_G1_ParseFlags(bq27441_g1, buffer);
 	return buffer;
 }
-uint8_t BQ27441_G1_GetNominalAvailableCapacity(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetNominalAvailableCapacity(bq27441_g1_t * bq27441_g1)
 {
-	uint8_t buffer;
+	uint16_t buffer;
 	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_NOMINAL_AVALIABLE_CAPACITY_CMD);
 	return buffer;
 }
-uint8_t BQ27441_G1_GetFullAvailiableCApacity(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetFullAvailiableCApacity(bq27441_g1_t * bq27441_g1)
 {
-	uint8_t buffer;
+	uint16_t buffer;
 	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_FULL_AVALIABLE_CAPACITY_CMD);
 	return buffer;
 }
-uint8_t BQ27441_G1_GetRemainingCapacity(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetRemainingCapacity(bq27441_g1_t * bq27441_g1)
 {
-	uint8_t buffer;
+	uint16_t buffer;
 	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_FULL_AVALIABLE_CAPACITY_CMD);
 	return buffer;
 }
-uint8_t BQ27441_G1_GetFullChargeCapacity(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetFullChargeCapacity(bq27441_g1_t * bq27441_g1)
 {
-
+	uint16_t buffer;
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_FULL_CHARGE_CAPACITY_CMD);
+	return buffer;
 }
-int8_t  BQ27441_G1_GetAvarageCurrent(bq27441_g1_t * bq27441_g1)
+int16_t  BQ27441_G1_GetAvarageCurrent(bq27441_g1_t * bq27441_g1)
 {
-
+	uint16_t buffer;
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_AVERAGE_CURRENT_CMD);
+	return buffer;
 }
-int8_t  BQ27441_G1_GetStandbyCurrent(bq27441_g1_t * bq27441_g1)
+int16_t  BQ27441_G1_GetStandbyCurrent(bq27441_g1_t * bq27441_g1)
 {
-
+	uint16_t buffer;
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_STANDBY_CURRENT_CMD);
+	return buffer;
 }
-int8_t  BQ27441_G1_GetMaxloadCurrent(bq27441_g1_t * bq27441_g1)
+int16_t  BQ27441_G1_GetMaxLoadCurrent(bq27441_g1_t * bq27441_g1)
 {
-
+	uint16_t buffer;
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_MAX_LOAD_CURRENT_CMD);
+	return buffer;
 }
-int8_t  BQ27441_G1_GetAveragePower(bq27441_g1_t * bq27441_g1)
+int16_t  BQ27441_G1_GetAveragePower(bq27441_g1_t * bq27441_g1)
 {
-
+	uint16_t buffer;
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_AVERAGE_POWER_CMD);
+	return buffer;
 }
-uint8_t BQ27441_G1_GetSatateOfCharge(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetStateOfCharge(bq27441_g1_t * bq27441_g1)
 {
-
+	uint16_t buffer;
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_STATE_OF_CHARGE_CMD);
+	return buffer;
 }
-uint8_t BQ27441_G1_GetInternalTemperature(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetInternalTemperature(bq27441_g1_t * bq27441_g1)
 {
-
+	uint16_t buffer;
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_INTERNAL_TEMPERATURE_CMD);
+	return buffer;
 }
-uint8_t BQ27441_G1_GetStateOfHealth(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetStateOfHealth(bq27441_g1_t * bq27441_g1)
 {
-	uint8_t buffer;
+	uint16_t buffer;
 	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_STATE_OF_HEALTH_CMD);
 	return buffer;
+
 }
-uint8_t BQ27441_G1_GetRemainingCapacityUnfiltered(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetRemainingCapacityUnfiltered(bq27441_g1_t * bq27441_g1)
 {
-
+	uint16_t buffer;
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_REMAINING_CAPACITY_UNFILTERED_CMD);
+	return buffer;
 }
-uint8_t BQ27441_G1_GetRemainingCapacityFiltered(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetRemainingCapacityFiltered(bq27441_g1_t * bq27441_g1)
 {
-
+	uint16_t buffer;
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_REMAINING_CAPACITY_FILTERED_CMD);
+	return buffer;
 }
-uint8_t BQ27441_G1_GetFullChargeCapacityUnfiltered(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetFullChargeCapacityUnfiltered(bq27441_g1_t * bq27441_g1)
 {
-
+	uint16_t buffer;
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_FULL_CHARGE_CAPACITY_UNFILTERED_CMD);
+	return buffer;
 }
-uint8_t BQ27441_G1_GetFullChargeCapacityFiltered(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetFullChargeCapacityFiltered(bq27441_g1_t * bq27441_g1)
 {
-
+	uint16_t buffer;
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_FULL_CHARGE_CAPACITY_FILTERED_CMD);
+	return buffer;
 }
-uint8_t BQ27441_G1_GetStateOfChargeUnfiltered(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetStateOfChargeUnfiltered(bq27441_g1_t * bq27441_g1)
 {
-
+	uint16_t buffer;
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_STATE_OF_CHARGE_UNFILTERED_CMD);
+	return buffer;
 }
 
 
+//CONTROL SUBCOMANDS FUNCTION
+
+//ÏÅÐÅÏÈÑÀÒÜ!
 void BQ27441_G1_GetControlStatus(bq27441_g1_t * bq27441_g1)
 {
-	uint8_t buffer;
+	uint16_t buffer;
+	bq27441_g1->WriteReg(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_CONTROL_STATUS_SUBCMD);
 	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_CONTROL_STATUS_SUBCMD);
 	BQ27441_G1_ParseControlStatus(bq27441_g1, buffer);
 }
 
-
-uint8_t BQ27441_G1_GetDesignCapacity(bq27441_g1_t * bq27441_g1)
+uint16_t BQ27441_G1_GetDeviceType(bq27441_g1_t * bq27441_g1)
 {
-	uint8_t buffer;
+	uint16_t buffer;
+	bq27441_g1->WriteReg(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_DEVICE_TYPE_SUBCMD);
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_CONTROL_CMD);
+	return buffer;
+}
+
+
+
+
+
+
+
+
+
+uint16_t BQ27441_G1_GetDesignCapacity(bq27441_g1_t * bq27441_g1)
+{
+	uint16_t buffer;
 	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_DESIGN_CAPACITY_CMD);
 	return buffer;
 }

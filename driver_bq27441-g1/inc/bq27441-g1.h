@@ -115,30 +115,36 @@ typedef struct {
 void BQ27441_G1_ParseFlags(bq27441_g1_t * bq27441_g1, uint8_t regval);
 void BQ27441_G1_ParseControlStatus(bq27441_g1_t * bq27441_g1, uint8_t regval);
 float BQ27441_G1_GetTemperature(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetVoltage(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetFlags(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetNominalAvailableCapacity(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetFullAvailiableCApacity(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetRemainingCapacity(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetFullChargeCapacity(bq27441_g1_t * bq27441_g1);
-int8_t  BQ27441_G1_GetAvarageCurrent(bq27441_g1_t * bq27441_g1);
-int8_t  BQ27441_G1_GetStandbyCurrent(bq27441_g1_t * bq27441_g1);
-int8_t  BQ27441_G1_GetMaxloadCurrent(bq27441_g1_t * bq27441_g1);
-int8_t  BQ27441_G1_GetAveragePower(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetSatateOfCharge(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetInternalTemperature(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetStateOfHealth(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetRemainingCapacityUnfiltered(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetRemainingCapacityFiltered(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetFullChargeCapacityUnfiltered(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetFullChargeCapacityFiltered(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetStateOfChargeUnfiltered(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetVoltage(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetFlags(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetNominalAvailableCapacity(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetFullAvailiableCApacity(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetRemainingCapacity(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetFullChargeCapacity(bq27441_g1_t * bq27441_g1);
+int16_t  BQ27441_G1_GetAvarageCurrent(bq27441_g1_t * bq27441_g1);
+int16_t  BQ27441_G1_GetStandbyCurrent(bq27441_g1_t * bq27441_g1);
+int16_t  BQ27441_G1_GetMaxLoadCurrent(bq27441_g1_t * bq27441_g1);
+int16_t  BQ27441_G1_GetAveragePower(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetStateOfCharge(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetInternalTemperature(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetStateOfHealth(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetRemainingCapacityUnfiltered(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetRemainingCapacityFiltered(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetFullChargeCapacityUnfiltered(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetFullChargeCapacityFiltered(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetStateOfChargeUnfiltered(bq27441_g1_t * bq27441_g1);
 
+//CONTROL SUBCOMANDS FUNCTIONS
 void BQ27441_G1_GetControlStatus(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetDeviceType(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetFwVersion(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetDmCode(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetOpConfig(bq27441_g1_t * bq27441_g1);
+
+uint16_t BQ27441_G1_GetOpConfig(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetDesignCapacity(bq27441_g1_t * bq27441_g1);
 
 
-uint8_t BQ27441_G1_GetOpConfig(bq27441_g1_t * bq27441_g1);
-uint8_t BQ27441_G1_GetDesignCapacity(bq27441_g1_t * bq27441_g1);
 
 
 
