@@ -112,8 +112,14 @@ typedef struct {
 
 
 
+
+
+
 void BQ27441_G1_ParseFlags(bq27441_g1_t * bq27441_g1, uint8_t regval);
 void BQ27441_G1_ParseControlStatus(bq27441_g1_t * bq27441_g1, uint8_t regval);
+
+/*STANDART COMMANDS FUNCTIONS*/
+
 float BQ27441_G1_GetTemperature(bq27441_g1_t * bq27441_g1);
 uint16_t BQ27441_G1_GetVoltage(bq27441_g1_t * bq27441_g1);
 uint16_t BQ27441_G1_GetFlags(bq27441_g1_t * bq27441_g1);
@@ -134,15 +140,34 @@ uint16_t BQ27441_G1_GetFullChargeCapacityUnfiltered(bq27441_g1_t * bq27441_g1);
 uint16_t BQ27441_G1_GetFullChargeCapacityFiltered(bq27441_g1_t * bq27441_g1);
 uint16_t BQ27441_G1_GetStateOfChargeUnfiltered(bq27441_g1_t * bq27441_g1);
 
-//CONTROL SUBCOMANDS FUNCTIONS
+/*CONTROL SUBCOMANDS FUNCTIONS*/
+
 void BQ27441_G1_GetControlStatus(bq27441_g1_t * bq27441_g1);
 uint16_t BQ27441_G1_GetDeviceType(bq27441_g1_t * bq27441_g1);
-uint16_t BQ27441_G1_GetFwVersion(bq27441_g1_t * bq27441_g1);
-uint16_t BQ27441_G1_GetDmCode(bq27441_g1_t * bq27441_g1);
-uint16_t BQ27441_G1_GetOpConfig(bq27441_g1_t * bq27441_g1);
+uint16_t BQ27441_G1_GetFwVersion(bq27441_g1_t * bq27441_g1);	//return the firmware version
+uint16_t BQ27441_G1_GetDmCode(bq27441_g1_t * bq27441_g1);		//return the 8-bit DM Code as the least significant byte
+uint16_t BQ27441_G1_GetPrevMacwrite(bq27441_g1_t * bq27441_g1);	//return the previous command written to CONTROL
+uint16_t BQ27441_G1_GetChemId(bq27441_g1_t * bq27441_g1);		//return the chemical identifier for the Impedance Track™ configuration
+void BQ27441_G1_BatInsert (bq27441_g1_t * bq27441_g1);			//forces the Flags() [BAT_DET] bit to set when the battery insertion detection is disabled via OpConfig[BIE] = 0.
+void BQ27441_G1_BatRemove (bq27441_g1_t * bq27441_g1);			//forces the Flags() [BAT_DET] bit to clear when the battery insertion detection is disabled via OpConfig[BIE] = 0.
+void BQ27441_G1_SetHibernate (bq27441_g1_t * bq27441_g1);		//force the CONTROL_STATUS [HIBERNATE] bit to 1.
+void BQ27441_G1_ClearHibernate (bq27441_g1_t * bq27441_g1);		//force the CONTROL_STATUS [HIBERNATE] bit to 0.
+void BQ27441_G1_SetCfgUpdate (bq27441_g1_t * bq27441_g1);		//set the Flags() [CFGUPMODE] bit to 1 and enter CONFIG UPDATE mode.
+void BQ27441_G1_SetShutdownEnable (bq27441_g1_t * bq27441_g1);	//enable SHUTDOWN mode and set the CONTROL_STATUS [SHUTDOWNEN]status bit.
+void BQ27441_G1_SetShutdown (bq27441_g1_t * bq27441_g1);		//immediately enter SHUTDOWN mode after receiving this subcommand.
+void BQ27441_G1_SetSealed (bq27441_g1_t * bq27441_g1);			//PROBLEM! transition from UNSEALED state to SEALED state
+void BQ27441_G1_ToggleGpout (bq27441_g1_t * bq27441_g1);		//pulse the GPOUT pin for approximately 1 ms within 1 second of receiving the command
+void BQ27441_G1_Reset (bq27441_g1_t * bq27441_g1);				//perform a full device reset
+void BQ27441_G1_SoftReset (bq27441_g1_t * bq27441_g1);			//perform a partial (soft) reset from any mode with an OCV measurement
+void BQ27441_G1_ExitCfgUpdate (bq27441_g1_t * bq27441_g1);
+void BQ27441_G1_ExitResim (bq27441_g1_t * bq27441_g1);
+
+
+/*EXTENDED COMMANDS FUNCTION*/
 
 uint16_t BQ27441_G1_GetOpConfig(bq27441_g1_t * bq27441_g1);
 uint16_t BQ27441_G1_GetDesignCapacity(bq27441_g1_t * bq27441_g1);
+
 
 
 

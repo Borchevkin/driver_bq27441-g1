@@ -108,20 +108,31 @@ int main(void)
 
 
 	volatile float temp = 0;
-	volatile uint16_t tem = 0;
-	volatile uint16_t t = 0;
-	volatile uint16_t n = 0;
+	volatile uint16_t tem, t, n, m, p, r, e;
+	tem = 0;
+	t = 0;
+	n = 0;
+	m = 0;
+	p = 0;
+	r = 0;
+	e = 0;
 
 	while (1)
 	{
 
 
-		BQ27441_G1_GetFlags(&bq27441_g1);
+
 		BQ27441_G1_GetControlStatus(&bq27441_g1);
 		temp = BQ27441_G1_GetTemperature(&bq27441_g1);
 		tem = BQ27441_G1_GetStateOfCharge(&bq27441_g1);
 		//BQ27441_G1_GetNominalAvailableCapacity(&bq27441_g1);
-		t = BQ27441_G1_GetDeviceType(&bq27441_g1);
+		//t = BQ27441_G1_GetDeviceType(&bq27441_g1);
+		n = BQ27441_G1_GetFwVersion(&bq27441_g1);
+		//m = BQ27441_G1_GetDmCode(&bq27441_g1);
+		//p = BQ27441_G1_GetPrevMacwrite(&bq27441_g1);
+		//r = BQ27441_G1_GetChemId(&bq27441_g1);
+
+		BQ27441_G1_GetFlags(&bq27441_g1);
 		//BQ27441_G1_GetDesignCapacity(&bq27441_g1);
 		//BQ27441_G1_GetStateOfHealth(&bq27441_g1);
 
