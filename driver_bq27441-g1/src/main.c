@@ -78,12 +78,12 @@ uint16_t i2c_read_register(uint16_t addr,uint16_t reg_offset)
 
 void i2c_write_register(uint16_t addr,uint8_t reg_offset, uint8_t write_data)
 {
-	uint8_t cmd_array[2];
+	uint8_t cmd_array[1];
 	uint8_t data_array[2];
 
 	cmd_array[0] = reg_offset;
 	data_array[0] = write_data;
-	i2c_transfer(addr << 1, cmd_array, data_array, 2, 2, I2C_FLAG_WRITE_WRITE);
+	i2c_transfer(addr << 1, cmd_array, data_array, 1, 2, I2C_FLAG_WRITE_WRITE);
 }
 
 
@@ -117,17 +117,17 @@ int main(void)
 	r = 0;
 	e = 0;
 
-	BQ27441_G1_SetCfgUpdate(&bq27441_g1);
+	//BQ27441_G1_SetCfgUpdate(&bq27441_g1);
 	//BQ27441_G1_ExitCfgUpdate(&bq27441_g1);
-	BQ27441_G1_SetSealed(&bq27441_g1);
+	//BQ27441_G1_SetSealed(&bq27441_g1);
 
 	while (1)
 	{
-		BQ27441_G1_GetControlStatus(&bq27441_g1);
+		//BQ27441_G1_GetControlStatus(&bq27441_g1);
 		//temp = BQ27441_G1_GetTemperature(&bq27441_g1);
 		tem = BQ27441_G1_GetStateOfCharge(&bq27441_g1);
 		//BQ27441_G1_GetNominalAvailableCapacity(&bq27441_g1);
-		//t = BQ27441_G1_GetDeviceType(&bq27441_g1);
+		t = BQ27441_G1_GetDeviceType(&bq27441_g1);
 		//n = BQ27441_G1_GetFwVersion(&bq27441_g1);
 		//m = BQ27441_G1_GetDmCode(&bq27441_g1);
 		//p = BQ27441_G1_GetPrevMacwrite(&bq27441_g1);
