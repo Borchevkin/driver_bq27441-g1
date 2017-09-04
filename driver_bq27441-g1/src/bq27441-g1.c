@@ -8,7 +8,7 @@
 #include "bq27441-g1.h"
 
 
-void BQ27441_G1_ParseFlags(bq27441_g1_t * bq27441_g1, uint8_t regval)
+void BQ27441_G1_ParseFlags(bq27441_g1_t * bq27441_g1, uint16_t regval)
 {
 	//low byte
 		bq27441_g1->flags.dsg 		= (regval & 0x01);
@@ -26,7 +26,7 @@ void BQ27441_G1_ParseFlags(bq27441_g1_t * bq27441_g1, uint8_t regval)
 		bq27441_g1->flags.ot 		= (regval & 0x8000) >> 15;
 }
 
-void BQ27441_G1_ParseControlStatus(bq27441_g1_t * bq27441_g1, uint8_t regval)
+void BQ27441_G1_ParseControlStatus(bq27441_g1_t * bq27441_g1, uint16_t regval)
 {
 
 	//high byte
@@ -46,15 +46,29 @@ void BQ27441_G1_ParseControlStatus(bq27441_g1_t * bq27441_g1, uint8_t regval)
 	bq27441_g1->control_status.sleep 		= (regval & 0x10) >> 4;
 	bq27441_g1->control_status.hibernate 	= (regval & 0x40) >> 6;
 	bq27441_g1->control_status.initcomp 	= (regval & 0x80) >> 7;
-
-
 }
+
+void BQ27441_G1_ParseOpConfig(bq27441_g1_t * bq27441_g1, uint16_t regval)
+{
+	//low byte
+	bq27441_g1->op_config.temps = (regval & 0x01);
+	bq27441_g1->op_config.batlowen = (regval & 0x04) >>2;
+	bq27441_g1->op_config.rmfcc = (regval & 0x10) >> 4;
+	bq27441_g1->op_config.sleep = (regval & 0x20) >> 5;
+
+	//high byte
+	bq27441_g1->op_config.gpiopol = (regval & 0x800) >> 11;
+	bq27441_g1->op_config.bi_pu_en = (regval & 0x1000) >> 12;
+	bq27441_g1->op_config.bie = (regval & 0x2000) >> 13;
+}
+
 
 /*STANDART COMMANDS FUNCTIONS*/
 
 float BQ27441_G1_GetTemperature(bq27441_g1_t * bq27441_g1)
 {
 	float result = 0;
+
 	uint16_t buffer;
 	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_TEMPERATURE_CMD);
 
@@ -100,7 +114,7 @@ uint16_t BQ27441_G1_GetFullChargeCapacity(bq27441_g1_t * bq27441_g1)
 	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_FULL_CHARGE_CAPACITY_CMD);
 	return buffer;
 }
-int16_t  BQ27441_G1_GetAvarageCurrent(bq27441_g1_t * bq27441_g1)
+int16_t  BQ27441_G1_GetAverageCurrent(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_AVERAGE_CURRENT_CMD);
@@ -132,9 +146,15 @@ uint16_t BQ27441_G1_GetStateOfCharge(bq27441_g1_t * bq27441_g1)
 }
 uint16_t BQ27441_G1_GetInternalTemperature(bq27441_g1_t * bq27441_g1)
 {
+	float result = 0;
 	uint16_t buffer;
+
 	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_INTERNAL_TEMPERATURE_CMD);
-	return buffer;
+
+	//Kelvin to Celsius
+	result = ((float) buffer * 0.1) - 273;
+
+	return result;
 }
 uint16_t BQ27441_G1_GetStateOfHealth(bq27441_g1_t * bq27441_g1)
 {
@@ -192,7 +212,6 @@ uint16_t BQ27441_G1_GetDeviceType(bq27441_g1_t * bq27441_g1)
 	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_CONTROL_CMD);
 	return buffer;
 }
-
 
 uint16_t BQ27441_G1_GetFwVersion(bq27441_g1_t * bq27441_g1)
 {
@@ -278,11 +297,30 @@ void BQ27441_G1_ExitResim (bq27441_g1_t * bq27441_g1)
 
 
 
+
+
+void BQ27441_G1_SetUnsealed (bq27441_g1_t * bq27441_g1)
+{
+	bq27441_g1->WriteReg(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_UNSEAL_KEY);
+}
 /*EXTENDED COMMANDS FUNCTION*/
+
+uint16_t BQ27441_G1_GetOpConfig(bq27441_g1_t * bq27441_g1)
+{
+	uint16_t buffer;
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_OP_CONFIG_CMD);
+	BQ27441_G1_ParseOpConfig(bq27441_g1, buffer);
+	return buffer;
+}
+
 
 uint16_t BQ27441_G1_GetDesignCapacity(bq27441_g1_t * bq27441_g1)
 {
-	uint16_t buffer;
-	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_DESIGN_CAPACITY_CMD);
+	uint16_t buffer, buffer1;
+	//uint16_t result = 0x00;
+	buffer = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_DESIGN_CAPACITY1_CMD);
+	//buffer1 = bq27441_g1->ReadReg(BQ27441_G1_ADDR, BQ27441_G1_DESIGN_CAPACITY2_CMD);
+	//result = (buffer1 << 8) | buffer;
+	//return result;
 	return buffer;
 }

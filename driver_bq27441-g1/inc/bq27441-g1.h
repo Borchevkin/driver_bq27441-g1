@@ -11,13 +11,14 @@
 
 /*Device address*/
 #define BQ27441_G1_ADDR									0x55
+#define BQ27441_G1_UNSEAL_KEY							0x8000
 
 /*STANDART COMMANDS*/
 
 #define BQ27441_G1_CONTROL_CMD							0x00
 #define BQ27441_G1_TEMPERATURE_CMD						0x02
 #define BQ27441_G1_VOLTAGE_CMD							0x04
-#define BQ27441_G1_FLAGS_CMD							0x07
+#define BQ27441_G1_FLAGS_CMD							0x06
 #define BQ27441_G1_NOMINAL_AVALIABLE_CAPACITY_CMD		0x08
 #define BQ27441_G1_FULL_AVALIABLE_CAPACITY_CMD			0x0A
 #define BQ27441_G1_REMAINING_CAPACITY_CMD				0x0C
@@ -60,7 +61,9 @@
 /*EXTENDED COMMANDS*/
 
 #define  BQ27441_G1_OP_CONFIG_CMD						0x3A
-#define  BQ27441_G1_DESIGN_CAPACITY_CMD					0x3C
+#define  BQ27441_G1_DESIGN_CAPACITY1_CMD				0x3C
+#define  BQ27441_G1_DESIGN_CAPACITY2_CMD				0x3D
+
 #define  BQ27441_G1_DATA_CLASS_CMD						0x3E
 #define  BQ27441_G1_DATA_BLOCK_CMD						0x3F
 #define  BQ27441_G1_BLOCK_DATA_CMD						0x40
@@ -104,10 +107,23 @@ typedef struct {
 } control_status_t;
 
 typedef struct {
+	//low byte
+	uint8_t sleep;
+	uint8_t rmfcc;
+	uint8_t batlowen;
+	uint8_t temps;
+	//high byte
+	uint8_t bie;
+	uint8_t bi_pu_en;
+	uint8_t gpiopol;
+} op_config_t;
+
+typedef struct {
 	void (*WriteReg)(uint8_t addr, uint8_t reg_offset, uint8_t data);
-	uint16_t (*ReadReg)(uint8_t addr, uint8_t reg_offset);
+	uint16_t (*ReadReg)(uint16_t addr, uint8_t reg_offset);
 	flags_t flags;
 	control_status_t control_status;
+	op_config_t op_config;
 } bq27441_g1_t;
 
 
@@ -115,8 +131,9 @@ typedef struct {
 
 
 
-void BQ27441_G1_ParseFlags(bq27441_g1_t * bq27441_g1, uint8_t regval);
-void BQ27441_G1_ParseControlStatus(bq27441_g1_t * bq27441_g1, uint8_t regval);
+void BQ27441_G1_ParseFlags(bq27441_g1_t * bq27441_g1, uint16_t regval);
+void BQ27441_G1_ParseControlStatus(bq27441_g1_t * bq27441_g1, uint16_t regval);
+void BQ27441_G1_ParseOpConfig(bq27441_g1_t * bq27441_g1, uint16_t regval);
 
 /*STANDART COMMANDS FUNCTIONS*/
 
@@ -127,7 +144,7 @@ uint16_t BQ27441_G1_GetNominalAvailableCapacity(bq27441_g1_t * bq27441_g1);
 uint16_t BQ27441_G1_GetFullAvailiableCApacity(bq27441_g1_t * bq27441_g1);
 uint16_t BQ27441_G1_GetRemainingCapacity(bq27441_g1_t * bq27441_g1);
 uint16_t BQ27441_G1_GetFullChargeCapacity(bq27441_g1_t * bq27441_g1);
-int16_t  BQ27441_G1_GetAvarageCurrent(bq27441_g1_t * bq27441_g1);
+int16_t  BQ27441_G1_GetAverageCurrent(bq27441_g1_t * bq27441_g1);
 int16_t  BQ27441_G1_GetStandbyCurrent(bq27441_g1_t * bq27441_g1);
 int16_t  BQ27441_G1_GetMaxLoadCurrent(bq27441_g1_t * bq27441_g1);
 int16_t  BQ27441_G1_GetAveragePower(bq27441_g1_t * bq27441_g1);
@@ -162,6 +179,8 @@ void BQ27441_G1_SoftReset (bq27441_g1_t * bq27441_g1);			//perform a partial (so
 void BQ27441_G1_ExitCfgUpdate (bq27441_g1_t * bq27441_g1);
 void BQ27441_G1_ExitResim (bq27441_g1_t * bq27441_g1);
 
+
+void BQ27441_G1_SetUnsealed (bq27441_g1_t * bq27441_g1);
 
 /*EXTENDED COMMANDS FUNCTION*/
 

@@ -9,17 +9,7 @@
 
 #define DEBUG_BREAK		__asm__("BKPT #0");
 
-#define ADXL345_ADDRESS 0x6A << 1
-#define ADXL345_DEVICE_ID_REG 0x00
-
 volatile uint32_t msTicks = 0;
-
-typedef struct {
-	uint8_t wdFault;
-	uint8_t wdEn;
-	uint8_t stat;
-	uint8_t fault;
-} reg1state_t;
 
 void DelayMs(uint32_t delayTicks)
 {
@@ -60,7 +50,7 @@ void i2c_transfer(uint16_t device_addr, uint8_t cmd_array[], uint8_t data_array[
 	}
 }
 
-uint16_t i2c_read_register(uint16_t addr,uint16_t reg_offset)
+uint16_t i2c_read_register(uint16_t addr,uint8_t reg_offset)
 {
 	uint16_t result = 0x00;
 
@@ -108,35 +98,41 @@ int main(void)
 
 
 	volatile float temp = 0;
-	volatile uint16_t tem, t, n, m, p, r, e;
-	tem = 0;
-	t = 0;
-	n = 0;
-	m = 0;
-	p = 0;
-	r = 0;
-	e = 0;
+	volatile uint16_t soc, devt, fwv, code, chem, descap, cur, remcap, fullcap;
+	soc = 0;
+	devt = 0;
+	fwv = 0;
+	code = 0;
+	chem = 0;
+	descap = 0;
+	cur = 0;
+	remcap = 0;
+	fullcap = 0;
 
-	//BQ27441_G1_SetCfgUpdate(&bq27441_g1);
-	//BQ27441_G1_ExitCfgUpdate(&bq27441_g1);
-	//BQ27441_G1_SetSealed(&bq27441_g1);
 
 	while (1)
 	{
 		//BQ27441_G1_GetControlStatus(&bq27441_g1);
-		//temp = BQ27441_G1_GetTemperature(&bq27441_g1);
-		tem = BQ27441_G1_GetStateOfCharge(&bq27441_g1);
+		temp = BQ27441_G1_GetTemperature(&bq27441_g1);
+		//soc = BQ27441_G1_GetStateOfChargeUnfiltered(&bq27441_g1);
 		//BQ27441_G1_GetNominalAvailableCapacity(&bq27441_g1);
-		t = BQ27441_G1_GetDeviceType(&bq27441_g1);
-		//n = BQ27441_G1_GetFwVersion(&bq27441_g1);
-		//m = BQ27441_G1_GetDmCode(&bq27441_g1);
-		//p = BQ27441_G1_GetPrevMacwrite(&bq27441_g1);
-		//r = BQ27441_G1_GetChemId(&bq27441_g1);
+		//devt = BQ27441_G1_GetDeviceType(&bq27441_g1);
+		//DelayMs(1000);
+		//fwv = BQ27441_G1_GetFwVersion(&bq27441_g1);
+		//DelayMs(1000);
+		//code = BQ27441_G1_GetDmCode(&bq27441_g1);
+		//DelayMs(1000);
+		//chem = BQ27441_G1_GetChemId(&bq27441_g1);
 
 
-		BQ27441_G1_GetFlags(&bq27441_g1);
-		//BQ27441_G1_GetDesignCapacity(&bq27441_g1);
+		//BQ27441_G1_GetFlags(&bq27441_g1);
+		//descap = BQ27441_G1_GetDesignCapacity(&bq27441_g1);
 		//BQ27441_G1_GetStateOfHealth(&bq27441_g1);
+		//cur = BQ27441_G1_GetAverageCurrent(&bq27441_g1);
+		//BQ27441_G1_GetOpConfig(&bq27441_g1);
+		//remcap = BQ27441_G1_GetRemainingCapacityUnfiltered(&bq27441_g1);
+		//fullcap = BQ27441_G1_GetFullChargeCapacityUnfiltered(&bq27441_g1);
+
 
 		GPIO_PinOutSet(LED0_PORT, LED0_PIN);	//set LED0 to 1
 		DelayMs(1000);							//delay
