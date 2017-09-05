@@ -87,12 +87,9 @@ int main(void)
 
 	DelayMs(100);
 
-	//I2C_Init_TypeDef i2cInit = I2C_INIT_DEFAULT;	//I2C initialization structure
-	//I2C_Init(I2C1, &i2cInit);		// Initialize I2C
-
-
-
+	//init structure
 	bq27441_g1_t bq27441_g1;
+
 	bq27441_g1.ReadReg = i2c_read_register;
 	bq27441_g1.WriteReg = i2c_write_register;
 
@@ -109,14 +106,14 @@ int main(void)
 	remcap = 0;
 	fullcap = 0;
 
-
 	while (1)
 	{
-		//BQ27441_G1_GetControlStatus(&bq27441_g1);
+		BQ27441_G1_GetControlStatus(&bq27441_g1);
 		temp = BQ27441_G1_GetTemperature(&bq27441_g1);
-		//soc = BQ27441_G1_GetStateOfChargeUnfiltered(&bq27441_g1);
-		//BQ27441_G1_GetNominalAvailableCapacity(&bq27441_g1);
-		//devt = BQ27441_G1_GetDeviceType(&bq27441_g1);
+		soc = BQ27441_G1_GetStateOfChargeUnfiltered(&bq27441_g1);
+		BQ27441_G1_GetNominalAvailableCapacity(&bq27441_g1);
+
+		devt = BQ27441_G1_GetDeviceType(&bq27441_g1);
 		//DelayMs(1000);
 		//fwv = BQ27441_G1_GetFwVersion(&bq27441_g1);
 		//DelayMs(1000);
@@ -125,13 +122,13 @@ int main(void)
 		//chem = BQ27441_G1_GetChemId(&bq27441_g1);
 
 
-		//BQ27441_G1_GetFlags(&bq27441_g1);
-		//descap = BQ27441_G1_GetDesignCapacity(&bq27441_g1);
-		//BQ27441_G1_GetStateOfHealth(&bq27441_g1);
-		//cur = BQ27441_G1_GetAverageCurrent(&bq27441_g1);
-		//BQ27441_G1_GetOpConfig(&bq27441_g1);
-		//remcap = BQ27441_G1_GetRemainingCapacityUnfiltered(&bq27441_g1);
-		//fullcap = BQ27441_G1_GetFullChargeCapacityUnfiltered(&bq27441_g1);
+		BQ27441_G1_GetFlags(&bq27441_g1);
+		descap = BQ27441_G1_GetDesignCapacity(&bq27441_g1);
+		BQ27441_G1_GetStateOfHealth(&bq27441_g1);
+		cur = BQ27441_G1_GetAverageCurrent(&bq27441_g1);
+		BQ27441_G1_GetOpConfig(&bq27441_g1);
+		remcap = BQ27441_G1_GetRemainingCapacityUnfiltered(&bq27441_g1);
+		fullcap = BQ27441_G1_GetFullChargeCapacityUnfiltered(&bq27441_g1);
 
 
 		GPIO_PinOutSet(LED0_PORT, LED0_PIN);	//set LED0 to 1

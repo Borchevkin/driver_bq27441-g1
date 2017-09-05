@@ -9,11 +9,15 @@
 #ifndef INC_BQ27441_G1_H_
 #define INC_BQ27441_G1_H_
 
+/* ______________________DEFINE Section______________________ */
+
 /*Device address*/
 #define BQ27441_G1_ADDR									0x55
-#define BQ27441_G1_UNSEAL_KEY							0x8000
 
-/*STANDART COMMANDS*/
+/* _________________________________________________________ */
+
+
+/* ____________________STANDART COMMANDS____________________ */
 
 #define BQ27441_G1_CONTROL_CMD							0x00
 #define BQ27441_G1_TEMPERATURE_CMD						0x02
@@ -36,7 +40,7 @@
 #define BQ27441_G1_FULL_CHARGE_CAPACITY_FILTERED_CMD	0x2E
 #define BQ27441_G1_STATE_OF_CHARGE_UNFILTERED_CMD		0x30
 
-/*BQ27441-G1_CONTROL_CMD SUBCOMMANDS*/
+/* ____________BQ27441-G1_CONTROL_CMD SUBCOMMANDS____________ */
 
 #define BQ27441_G1_CONTROL_STATUS_SUBCMD				0x0000
 #define BQ27441_G1_DEVICE_TYPE_SUBCMD					0x0001
@@ -58,18 +62,21 @@
 #define BQ27441_G1_EXIT_CFGUPDATE_SUBCMD				0x0043
 #define BQ27441_G1_EXIT_RESIM_SUBCMD					0x0044
 
-/*EXTENDED COMMANDS*/
+/* _________________________________________________________ */
+
+/* ____________________EXTENDED COMMANDS____________________ */
 
 #define  BQ27441_G1_OP_CONFIG_CMD						0x3A
-#define  BQ27441_G1_DESIGN_CAPACITY1_CMD				0x3C
-#define  BQ27441_G1_DESIGN_CAPACITY2_CMD				0x3D
-
+#define  BQ27441_G1_DESIGN_CAPACITY_CMD					0x3C
 #define  BQ27441_G1_DATA_CLASS_CMD						0x3E
 #define  BQ27441_G1_DATA_BLOCK_CMD						0x3F
 #define  BQ27441_G1_BLOCK_DATA_CMD						0x40
 #define  BQ27441_G1_BLOCK_DATA_CHECKSUM_CMD				0x60
 #define  BQ27441_G1_BLOCK_DATA_CONTROL_CMD				0x61
 
+/* _________________________________________________________ */
+
+/* ______________________Types  Section_____________________ */
 
 typedef struct {
 	//high byte
@@ -119,7 +126,7 @@ typedef struct {
 } op_config_t;
 
 typedef struct {
-	void (*WriteReg)(uint8_t addr, uint8_t reg_offset, uint8_t data);
+	void (*WriteReg)(uint16_t addr, uint8_t reg_offset, uint8_t data);
 	uint16_t (*ReadReg)(uint16_t addr, uint8_t reg_offset);
 	flags_t flags;
 	control_status_t control_status;
@@ -127,15 +134,18 @@ typedef struct {
 } bq27441_g1_t;
 
 
+/* _________________________________________________________ */
 
 
+
+/* ____________________Prototypes Section___________________ */
 
 
 void BQ27441_G1_ParseFlags(bq27441_g1_t * bq27441_g1, uint16_t regval);
 void BQ27441_G1_ParseControlStatus(bq27441_g1_t * bq27441_g1, uint16_t regval);
 void BQ27441_G1_ParseOpConfig(bq27441_g1_t * bq27441_g1, uint16_t regval);
 
-/*STANDART COMMANDS FUNCTIONS*/
+/* _______________STANDART COMMANDS FUNCTIONS_______________ */
 
 float BQ27441_G1_GetTemperature(bq27441_g1_t * bq27441_g1);
 uint16_t BQ27441_G1_GetVoltage(bq27441_g1_t * bq27441_g1);
@@ -157,7 +167,11 @@ uint16_t BQ27441_G1_GetFullChargeCapacityUnfiltered(bq27441_g1_t * bq27441_g1);
 uint16_t BQ27441_G1_GetFullChargeCapacityFiltered(bq27441_g1_t * bq27441_g1);
 uint16_t BQ27441_G1_GetStateOfChargeUnfiltered(bq27441_g1_t * bq27441_g1);
 
-/*CONTROL SUBCOMANDS FUNCTIONS*/
+/* _________________________________________________________ */
+
+
+
+/* _______________CONTROL SUBCOMANDS FUNCTIONS______________ */
 
 void BQ27441_G1_GetControlStatus(bq27441_g1_t * bq27441_g1);
 uint16_t BQ27441_G1_GetDeviceType(bq27441_g1_t * bq27441_g1);
@@ -182,15 +196,23 @@ void BQ27441_G1_ExitResim (bq27441_g1_t * bq27441_g1);
 
 void BQ27441_G1_SetUnsealed (bq27441_g1_t * bq27441_g1);
 
-/*EXTENDED COMMANDS FUNCTION*/
-
-uint16_t BQ27441_G1_GetOpConfig(bq27441_g1_t * bq27441_g1);
-uint16_t BQ27441_G1_GetDesignCapacity(bq27441_g1_t * bq27441_g1);
+/* _________________________________________________________ */
 
 
 
+/* ________________EXTENDED COMMANDS FUNCTION_______________ */
 
+uint16_t BQ27441_G1_GetOpConfig(bq27441_g1_t * bq27441_g1);						//return OpConfig Data Memory register setting
+uint16_t BQ27441_G1_GetDesignCapacity(bq27441_g1_t * bq27441_g1);				//returns the Design Capacity Data Memory value
+void BQ27441_G1_WriteDesignCapacity(bq27441_g1_t * bq27441_g1, uint16_t value);
+void BQ27441_G1_WriteDataClass (bq27441_g1_t * bq27441_g1, uint8_t value);		//sets the data class to be accessed
+uint16_t BQ27441_G1_GetDataBlock (bq27441_g1_t * bq27441_g1, uint8_t value);	//To access data located at offset 0 to 31, value = 0x00. To access data located at offset 32 to 41, value = 0x01.
+uint16_t BQ27441_G1_BlockData (bq27441_g1_t * bq27441_g1);						// remainder of the 32-byte data block when accessing general block data
+uint16_t BQ27441_G1_GetChecksum (bq27441_g1_t * bq27441_g1);					// contains the checksum on the 32 bytes of block data read or written.
+void BQ27441_G1_WriteChecksum (bq27441_g1_t * bq27441_g1, uint16_t value);
+void BQ27441_G1_BlockDataControl (bq27441_g1_t * bq27441_g1);					// control the data access mode.
 
+/* _________________________________________________________ */
 
 
 #endif /* INC_BQ27441_G1_H_ */
