@@ -126,8 +126,8 @@ typedef struct {
 } op_config_t;
 
 typedef struct {
-	void (*WriteReg)(uint16_t addr, uint8_t reg_offset, uint8_t data);
-	uint16_t (*ReadReg)(uint16_t addr, uint8_t reg_offset);
+	void (*Write)(uint16_t addr, uint8_t reg_offset, uint8_t data);
+	uint16_t (*Read)(uint16_t addr, uint8_t reg_offset);
 	flags_t flags;
 	control_status_t control_status;
 	op_config_t op_config;

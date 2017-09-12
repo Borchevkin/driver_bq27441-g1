@@ -90,8 +90,8 @@ int main(void)
 	//init structure
 	bq27441_g1_t bq27441_g1;
 
-	bq27441_g1.ReadReg = i2c_read_register;
-	bq27441_g1.WriteReg = i2c_write_register;
+	bq27441_g1.Read = i2c_read_register;
+	bq27441_g1.Write = i2c_write_register;
 
 
 	volatile float temp = 0;
