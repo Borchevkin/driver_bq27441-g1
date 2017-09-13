@@ -114,11 +114,8 @@ int main(void)
 		BQ27441_G1_GetNominalAvailableCapacity(&bq27441_g1);
 
 		devt = BQ27441_G1_GetDeviceType(&bq27441_g1);
-		//DelayMs(1000);
 		//fwv = BQ27441_G1_GetFwVersion(&bq27441_g1);
-		//DelayMs(1000);
 		//code = BQ27441_G1_GetDmCode(&bq27441_g1);
-		//DelayMs(1000);
 		//chem = BQ27441_G1_GetChemId(&bq27441_g1);
 
 

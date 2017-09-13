@@ -186,7 +186,7 @@ void BQ27441_G1_ClearHibernate (bq27441_g1_t * bq27441_g1);		//force the CONTROL
 void BQ27441_G1_SetCfgUpdate (bq27441_g1_t * bq27441_g1);		//set the Flags() [CFGUPMODE] bit to 1 and enter CONFIG UPDATE mode.
 void BQ27441_G1_SetShutdownEnable (bq27441_g1_t * bq27441_g1);	//enable SHUTDOWN mode and set the CONTROL_STATUS [SHUTDOWNEN]status bit.
 void BQ27441_G1_SetShutdown (bq27441_g1_t * bq27441_g1);		//immediately enter SHUTDOWN mode after receiving this subcommand.
-void BQ27441_G1_SetSealed (bq27441_g1_t * bq27441_g1);			//PROBLEM! transition from UNSEALED state to SEALED state
+void BQ27441_G1_SetSealed (bq27441_g1_t * bq27441_g1);			//transition from UNSEALED state to SEALED state
 void BQ27441_G1_ToggleGpout (bq27441_g1_t * bq27441_g1);		//pulse the GPOUT pin for approximately 1 ms within 1 second of receiving the command
 void BQ27441_G1_Reset (bq27441_g1_t * bq27441_g1);				//perform a full device reset
 void BQ27441_G1_SoftReset (bq27441_g1_t * bq27441_g1);			//perform a partial (soft) reset from any mode with an OCV measurement
