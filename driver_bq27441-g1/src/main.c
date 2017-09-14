@@ -5,24 +5,7 @@
 #include "em_cmu.h"
 #include "em_i2c.h"
 #include "bq27441-g1.h"
-
-
-#define DEBUG_BREAK		__asm__("BKPT #0");
-
-volatile uint32_t msTicks = 0;
-
-void DelayMs(uint32_t delayTicks)
-{
-	uint32_t curTicks;
-
-	curTicks = msTicks;
-	while ((msTicks - curTicks)< delayTicks);
-}
-
-void SysTick_Handler(void)
-{
-	msTicks++;
-}
+#include "utilities.h"
 
 void i2c_transfer(uint16_t device_addr, uint8_t cmd_array[], uint8_t data_array[], uint16_t cmd_len, uint16_t data_len, uint16_t flag)
 {
@@ -61,8 +44,8 @@ uint16_t i2c_read_register(uint16_t addr,uint8_t reg_offset)
 	i2c_transfer(addr << 1, cmd_array, data_array, 1, 2, I2C_FLAG_WRITE_READ);
 
 	result = (data_array[1] << 8) | (data_array[0]);
-
 	return result;
+	return data_array[0];
 }
 
 
