@@ -21,11 +21,11 @@ See ***LICENCE*** file.
 
 * ***/driver_bq27441-g1/*** - driver for battery fuel gauge BQ27441-G1:
 
-    * ***../inc/bq27441-g1.h*** - header of the battery fuel gauge BQ27441-G1
+    * ***../inc/bq27441-g1.h*** - header of the battery fuel gauge BQ27441-G1 driver
     
     * ***../inc/utilities.h*** - header of some utilitie functions
 
-    * ***../src/bq27441-g1.c*** - source of the battery fuel gauge BQ27441-G1
+    * ***../src/bq27441-g1.c*** - source of the battery fuel gauge BQ27441-G1 driver
     
     * ***../src/utilities.c*** - source of some utilitie functions
 
