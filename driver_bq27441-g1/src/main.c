@@ -7,19 +7,19 @@
 #include "bq27441-g1.h"
 #include "utilities.h"
 
-void i2c_transfer(uint16_t device_addr, uint8_t cmd_array[], uint8_t data_array[], uint16_t cmd_len, uint16_t data_len, uint16_t flag)
+void I2CTransfer(uint16_t deviceAddr, uint8_t cmdArray[], uint8_t dataArray[], uint16_t cmdLen, uint16_t dataLen, uint16_t flag)
 {
 	I2C_TransferSeq_TypeDef i2cTransfer; // transfer structure
 
 	I2C_TransferReturn_TypeDef result;	//transfer return enum
 
-	i2cTransfer.addr		= device_addr;
+	i2cTransfer.addr		= deviceAddr;
 	i2cTransfer.flags		= flag;
-	i2cTransfer.buf[0].data	= cmd_array;
-	i2cTransfer.buf[0].len	= cmd_len;
+	i2cTransfer.buf[0].data	= cmdArray;
+	i2cTransfer.buf[0].len	= cmdLen;
 
-	i2cTransfer.buf[1].data	= data_array;
-	i2cTransfer.buf[1].len	= data_len;
+	i2cTransfer.buf[1].data	= dataArray;
+	i2cTransfer.buf[1].len	= dataLen;
 
 	result = I2C_TransferInit(I2C1, &i2cTransfer);
 
@@ -33,30 +33,30 @@ void i2c_transfer(uint16_t device_addr, uint8_t cmd_array[], uint8_t data_array[
 	}
 }
 
-uint16_t i2c_read_register(uint16_t addr,uint8_t reg_offset)
+uint16_t i2cReadRegister(uint16_t addr,uint8_t regOffset)
 {
 	uint16_t result = 0x00;
 
-	uint8_t cmd_array[1];
-	uint8_t data_array[2];
+	uint8_t cmdArray[1];
+	uint8_t dataArray[2];
 
-	cmd_array[0] = reg_offset;
-	i2c_transfer(addr << 1, cmd_array, data_array, 1, 2, I2C_FLAG_WRITE_READ);
+	cmdArray[0] = regOffset;
+	I2CTransfer(addr << 1, cmdArray, dataArray, 1, 2, I2C_FLAG_WRITE_READ);
 
-	result = (data_array[1] << 8) | (data_array[0]);
+	result = (dataArray[1] << 8) | (dataArray[0]);
 	return result;
-	return data_array[0];
+	return dataArray[0];
 }
 
 
-void i2c_write_register(uint16_t addr,uint8_t reg_offset, uint8_t write_data)
+void i2cWriteRegister(uint16_t addr,uint8_t regOffset, uint8_t writeData)
 {
-	uint8_t cmd_array[1];
-	uint8_t data_array[2];
+	uint8_t cmdArray[1];
+	uint8_t dataArray[2];
 
-	cmd_array[0] = reg_offset;
-	data_array[0] = write_data;
-	i2c_transfer(addr << 1, cmd_array, data_array, 1, 2, I2C_FLAG_WRITE_WRITE);
+	cmdArray[0] = regOffset;
+	dataArray[0] = writeData;
+	I2CTransfer(addr << 1, cmdArray, dataArray, 1, 2, I2C_FLAG_WRITE_WRITE);
 }
 
 
@@ -73,8 +73,8 @@ int main(void)
 	//init structure
 	bq27441_g1_t bq27441_g1;
 
-	bq27441_g1.Read = i2c_read_register;
-	bq27441_g1.Write = i2c_write_register;
+	bq27441_g1.Read = i2cReadRegister;
+	bq27441_g1.Write = i2cWriteRegister;
 
 
 	volatile float temp = 0;

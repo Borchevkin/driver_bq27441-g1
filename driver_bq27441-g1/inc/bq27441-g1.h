@@ -1,7 +1,7 @@
 /*
  * bq27441-g1.h
  *
- *  Created on: 24 àâã. 2017 ã.
+ *  Created on: 24 ï¿½ï¿½ï¿½. 2017 ï¿½.
  *      Author: user
  */
 #include <stdint.h>
@@ -126,8 +126,8 @@ typedef struct {
 } op_config_t;
 
 typedef struct {
-	void (*Write)(uint16_t addr, uint8_t reg_offset, uint8_t data);
-	uint16_t (*Read)(uint16_t addr, uint8_t reg_offset);
+	void (*Write)(uint16_t addr, uint8_t regOffset, uint8_t data);
+	uint16_t (*Read)(uint16_t addr, uint8_t regOffset);
 	flags_t flags;
 	control_status_t control_status;
 	op_config_t op_config;
@@ -178,7 +178,7 @@ uint16_t BQ27441_G1_GetDeviceType(bq27441_g1_t * bq27441_g1);
 uint16_t BQ27441_G1_GetFwVersion(bq27441_g1_t * bq27441_g1);	//return the firmware version
 uint16_t BQ27441_G1_GetDmCode(bq27441_g1_t * bq27441_g1);		//return the 8-bit DM Code as the least significant byte
 uint16_t BQ27441_G1_GetPrevMacwrite(bq27441_g1_t * bq27441_g1);	//return the previous command written to CONTROL
-uint16_t BQ27441_G1_GetChemId(bq27441_g1_t * bq27441_g1);		//return the chemical identifier for the Impedance Track™ configuration
+uint16_t BQ27441_G1_GetChemId(bq27441_g1_t * bq27441_g1);		//return the chemical identifier for the Impedance Trackï¿½ configuration
 void BQ27441_G1_BatInsert (bq27441_g1_t * bq27441_g1);			//forces the Flags() [BAT_DET] bit to set when the battery insertion detection is disabled via OpConfig[BIE] = 0.
 void BQ27441_G1_BatRemove (bq27441_g1_t * bq27441_g1);			//forces the Flags() [BAT_DET] bit to clear when the battery insertion detection is disabled via OpConfig[BIE] = 0.
 void BQ27441_G1_SetHibernate (bq27441_g1_t * bq27441_g1);		//force the CONTROL_STATUS [HIBERNATE] bit to 1.

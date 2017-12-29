@@ -1,7 +1,7 @@
 /*
  * utilties.h
  *
- *  Created on: 14 сент. 2017 г.
+ *  Created on: 14 пїЅпїЅпїЅпїЅ. 2017 пїЅ.
  *      Author: user
  */
 
@@ -14,7 +14,7 @@
 
 
 void DelayMs(uint32_t delayTicks);
-void SysTick_Handler(void);
+void SysTickHandler(void);
 
 int swapMSB_LSB(int data);
 

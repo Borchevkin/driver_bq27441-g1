@@ -1,7 +1,7 @@
 /*
  * utilties.c
  *
- *  Created on: 14 сент. 2017 г.
+ *  Created on: 14 пїЅпїЅпїЅпїЅ. 2017 пїЅ.
  *      Author: user
  */
 #include "utilities.h"
@@ -16,7 +16,7 @@ void DelayMs(uint32_t delayTicks)
 	while ((msTicks - curTicks)< delayTicks);
 }
 
-void SysTick_Handler(void)
+void SysTickHandler(void)
 {
 	msTicks++;
 }
