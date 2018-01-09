@@ -35,7 +35,7 @@ void BQ27441_G1_ParseFlags(bq27441_g1_t * bq27441_g1, uint16_t regval)
 
 /*!
 \brief Parsing of Control Status Register result
-\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\param [out] bq27441_g1 Initialized variable of type bq27441_g1
 \param [in] regval Control Status register value
 */
 
