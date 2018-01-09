@@ -1,12 +1,19 @@
 /*
  * driver_bq27441-g1.c
  *
- *  Created on: 26 àâã. 2017 ã.
+ *  Created on: 26 ï¿½ï¿½ï¿½. 2017 ï¿½.
  *      Author: user
  */
 
 #include "bq27441-g1.h"
 
+
+
+/*!
+\brief Parsing of Flag Register result
+\param [out] bq27441_g1 Initialized variable of type bq27441_g1
+\param [in] regval Flag register value
+*/
 
 void BQ27441_G1_ParseFlags(bq27441_g1_t * bq27441_g1, uint16_t regval)
 {
@@ -25,6 +32,12 @@ void BQ27441_G1_ParseFlags(bq27441_g1_t * bq27441_g1, uint16_t regval)
 	bq27441_g1->flags.ut 		= (regval & 0x4000) >> 14;
 	bq27441_g1->flags.ot 		= (regval & 0x8000) >> 15;
 }
+
+/*!
+\brief Parsing of Control Status Register result
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\param [in] regval Control Status register value
+*/
 
 void BQ27441_G1_ParseControlStatus(bq27441_g1_t * bq27441_g1, uint16_t regval)
 {
@@ -47,6 +60,12 @@ void BQ27441_G1_ParseControlStatus(bq27441_g1_t * bq27441_g1, uint16_t regval)
 	bq27441_g1->control_status.shutdownen 	= (regval & 0x8000) >> 15;
 }
 
+/*!
+\brief Parsing of Operation Configuration Register result
+\param [out] bq27441_g1 Initialized variable of type bq27441_g1
+\param [in] regval Operation Configuration Register value
+*/
+
 void BQ27441_G1_ParseOpConfig(bq27441_g1_t * bq27441_g1, uint16_t regval)
 {
 	//low byte
@@ -64,6 +83,13 @@ void BQ27441_G1_ParseOpConfig(bq27441_g1_t * bq27441_g1, uint16_t regval)
 
 /* _______________STANDART COMMANDS FUNCTIONS_______________ */
 
+
+/*!
+\brief Getting value of temperature, measured by the fuel gauge 
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of temperature in Celsius
+*/
+
 float BQ27441_G1_GetTemperature(bq27441_g1_t * bq27441_g1)
 {
 	float result = 0;
@@ -76,12 +102,26 @@ float BQ27441_G1_GetTemperature(bq27441_g1_t * bq27441_g1)
 
 	return result;
 }
+
+/*!
+\brief Getting value of the measured cell-pack voltage in mV with a range of 0 to 6000 mV 
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of voltage in mV
+*/
+
 uint16_t BQ27441_G1_GetVoltage(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_VOLTAGE_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting the contents of the fuel gauging status register, depicting the current operating status
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of Flag Register
+*/
+
 uint16_t BQ27441_G1_GetFlags(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
@@ -89,60 +129,131 @@ uint16_t BQ27441_G1_GetFlags(bq27441_g1_t * bq27441_g1)
 	BQ27441_G1_ParseFlags(bq27441_g1, buffer);
 	return buffer;
 }
+
+/*!
+\brief Getting value of  uncompensated (less than C/20 load) battery capacity remaining
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of capacity in mAh
+*/
+
 uint16_t BQ27441_G1_GetNominalAvailableCapacity(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_NOMINAL_AVALIABLE_CAPACITY_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting value of  uncompensated (less than C/20 load) capacity of the battery when fully charged
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of capacity in mAh
+*/
+
 uint16_t BQ27441_G1_GetFullAvailiableCApacity(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_FULL_AVALIABLE_CAPACITY_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting value of remaining battery capacity compensated for load and temperature
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of capacity in mAh
+*/
+
 uint16_t BQ27441_G1_GetRemainingCapacity(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_REMAINING_CAPACITY_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting value of compensated capacity of the battery when fully charged
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of capacity in mAh
+*/
+
 uint16_t BQ27441_G1_GetFullChargeCapacity(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_FULL_CHARGE_CAPACITY_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting value  that is the average current flow through the sense resistor
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of current in mA
+*/
+
 int16_t  BQ27441_G1_GetAverageCurrent(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_AVERAGE_CURRENT_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting value of the measured standby current through the sense resistor
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of current in mA
+*/
+
 int16_t  BQ27441_G1_GetStandbyCurrent(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_STANDBY_CURRENT_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting value of the maximum load conditions
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of current in mA
+*/
+
 int16_t  BQ27441_G1_GetMaxLoadCurrent(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_MAX_LOAD_CURRENT_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting value  of the average power during charging and discharging of the battery.  It is negative during discharge and positive during charge. A value of 0
+indicates that the battery is not being discharged
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of power in mW
+*/
+
 int16_t  BQ27441_G1_GetAveragePower(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_AVERAGE_POWER_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting value of the predicted remaining battery capacity expressed as a percentage of FullChargeCapacity() with a range of 0 to 100%
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of predicted remaining battery capacity in %
+*/
+
 uint16_t BQ27441_G1_GetStateOfCharge(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_STATE_OF_CHARGE_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting value of the internal temperature sensor
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of temperature in Celsius
+*/
+
 uint16_t BQ27441_G1_GetInternalTemperature(bq27441_g1_t * bq27441_g1)
 {
 	float result = 0;
@@ -155,37 +266,78 @@ uint16_t BQ27441_G1_GetInternalTemperature(bq27441_g1_t * bq27441_g1)
 
 	return result;
 }
+
+/*!
+\brief Getting value, expressed as a percentage of the ratio of predicted FCC(25Â°C, SOH LoadI) over the DesignCapacity
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of SOH in %
+*/
+
 uint16_t BQ27441_G1_GetStateOfHealth(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_STATE_OF_HEALTH_CMD);
 	return buffer;
-
 }
+
+/*!
+\brief Getting value of the true battery capacity remaining
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of capacity in mAh
+*/
+
 uint16_t BQ27441_G1_GetRemainingCapacityUnfiltered(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_REMAINING_CAPACITY_UNFILTERED_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting value of the filtered battery capacity remaining
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of capacity in mAh
+*/
+
 uint16_t BQ27441_G1_GetRemainingCapacityFiltered(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_REMAINING_CAPACITY_FILTERED_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting value of the compensated capacity of the battery when fully charged
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of capacity in mAh
+*/
+
 uint16_t BQ27441_G1_GetFullChargeCapacityUnfiltered(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_FULL_CHARGE_CAPACITY_UNFILTERED_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting value of the filtered compensated capacity of the battery when fully charged
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of capacity in mAh
+*/
+
 uint16_t BQ27441_G1_GetFullChargeCapacityFiltered(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_FULL_CHARGE_CAPACITY_FILTERED_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting value of the true state-of-charge
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of SOC in %
+*/
+
 uint16_t BQ27441_G1_GetStateOfChargeUnfiltered(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
@@ -199,6 +351,12 @@ uint16_t BQ27441_G1_GetStateOfChargeUnfiltered(bq27441_g1_t * bq27441_g1)
 
 /* _______________CONTROL SUBCOMANDS FUNCTIONS______________ */
 
+/*!
+\brief Reports the status of device.
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of Conrol Status Register 
+*/
+
 void BQ27441_G1_GetControlStatus(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
@@ -206,6 +364,12 @@ void BQ27441_G1_GetControlStatus(bq27441_g1_t * bq27441_g1)
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_CONTROL_CMD);
 	BQ27441_G1_ParseControlStatus(bq27441_g1, buffer);
 }
+
+/*!
+\brief Reports the device typ
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of device type (0x0421)
+*/
 
 uint16_t BQ27441_G1_GetDeviceType(bq27441_g1_t * bq27441_g1)
 {
@@ -215,6 +379,12 @@ uint16_t BQ27441_G1_GetDeviceType(bq27441_g1_t * bq27441_g1)
 	return buffer;
 }
 
+/*!
+\brief Reports the firmware version of the device
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of the firmware version
+*/
+
 uint16_t BQ27441_G1_GetFwVersion(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
@@ -223,6 +393,12 @@ uint16_t BQ27441_G1_GetFwVersion(bq27441_g1_t * bq27441_g1)
 	return buffer;
 }
 
+/*!
+\brief Reports the configuration code stored in Data Memory
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of the DM code
+*/
+
 uint16_t BQ27441_G1_GetDmCode(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
@@ -230,6 +406,13 @@ uint16_t BQ27441_G1_GetDmCode(bq27441_g1_t * bq27441_g1)
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_CONTROL_CMD);
 	return buffer;
 }
+
+/*!
+\brief Getting previous MAC command code
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Previous command code
+*/
+
 uint16_t BQ27441_G1_GetPrevMacwrite(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
@@ -237,6 +420,13 @@ uint16_t BQ27441_G1_GetPrevMacwrite(bq27441_g1_t * bq27441_g1)
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_CONTROL_CMD);
 	return buffer;
 }
+
+/*!
+\brief Reports the chemical identifier of the battery profile used by the fuel gauge
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Expected value for bq27441-G1A - 0x0128, for bq27441-G1B - 0x0312.
+*/
+
 uint16_t BQ27441_G1_GetChemId(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
@@ -244,54 +434,139 @@ uint16_t BQ27441_G1_GetChemId(bq27441_g1_t * bq27441_g1)
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_CONTROL_CMD);
 	return buffer;
 }
+
+/*!
+\brief Forces the Flags() [BAT_DET] bit to set when the battery insertion detection is disabled via OpConfig
+[BIE] = 0. In this case, the gauge does not detect battery insertion from the BIN pin logic state, but relies
+on the BAT_INSERT host subcommand to indicate battery presence in the system.
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+*/
+
 void BQ27441_G1_BatInsert (bq27441_g1_t * bq27441_g1)
 {
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_BAT_INSERT_SUBCMD);
 }
+
+/*!
+\brief Forces the Flags() [BAT_DET] bit to clear when the battery insertion detection is disabled via OpConfig
+[BIE] = 0. In this case, the gauge does not detect battery removal from the BIN pin logic state, but relies
+on the BAT_REMOVE host subcommand to indicate battery removal from the system.
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+*/
+
 void BQ27441_G1_BatRemove (bq27441_g1_t * bq27441_g1)
 {
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_BAT_REMOVE_SUBCMD);
 }
+
+/*!
+\brief Instructs the fuel gauge to force the CONTROL_STATUS [HIBERNATE] bit to 1. If the necessary
+conditions are met, this enables the gauge to enter the HIBERNATE power mode after the transition to
+SLEEP power state is detected.
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+*/
+
 void BQ27441_G1_SetHibernate (bq27441_g1_t * bq27441_g1)
 {
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_SET_HIBERNATE_SUBCMD);
 }
+
+/*!
+\brief Instructs the fuel gauge to force the CONTROL_STATUS [HIBERNATE] bit to 0. This prevents the gauge
+from entering the HIBERNATE power mode after the transition to SLEEP power state is detected.
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+*/
+
 void BQ27441_G1_ClearHibernate (bq27441_g1_t * bq27441_g1)
 {
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_CLEAR_HIBERNATE_SUBCMD);
 }
+
+/*!
+\brief Instructs the fuel gauge to enter CONFIG UPDATE mode
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+*/
+
 void BQ27441_G1_SetCfgUpdate (bq27441_g1_t * bq27441_g1)
 {
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_SET_CFGUPDATE_SUBCMD);
 }
+
+/*!
+\brief Instructs the fuel gauge to enable SHUTDOWN mode
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+*/
+
 void BQ27441_G1_SetShutdownEnable (bq27441_g1_t * bq27441_g1)
 {
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_SHUTDOWN_ENABLE_SUBCMD);
 }
+
+/*!
+\brief Instructs the fuel gauge to immediately enter SHUTDOWN mode
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+*/
+
 void BQ27441_G1_SetShutdown (bq27441_g1_t * bq27441_g1)
 {
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_SHUTDOWN_SUBCMD);
 }
+
+/*!
+\brief Instructs the fuel gauge to  transition from UNSEALED state to SEALED state
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+*/
+
 void BQ27441_G1_SetSealed (bq27441_g1_t * bq27441_g1)
 {
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_SEALED_SUBCMD);
 }
+
+/*!
+\brief Commands the device to toggle the GPOUT pin for 1 ms
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+*/
+
 void BQ27441_G1_ToggleGpout (bq27441_g1_t * bq27441_g1)
 {
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_TOGGLE_GPOUT_SUBCMD);
 }
+
+/*!
+\brief Performs a full device reset
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+*/
+
 void BQ27441_G1_Reset (bq27441_g1_t * bq27441_g1)
 {
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_RESET_SUBCMD);
 }
+
+/*!
+\brief Performs a partial (soft) reset from any mode with an OCV (open-circuit voltage) measurement
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+*/
+
 void BQ27441_G1_SoftReset (bq27441_g1_t * bq27441_g1)
 {
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_SOFT_RESET_SUBCMD);
 }
+
+/*!
+\brief Exits CONFIG UPDATE mode without an OCV measurement and without resimulating to update StateOfCharge()
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+*/
+
 void BQ27441_G1_ExitCfgUpdate (bq27441_g1_t * bq27441_g1)
 {
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_EXIT_CFGUPDATE_SUBCMD);
 }
+
+/*!
+\brief Exits CONFIG UPDATE mode without an OCV measurement and resimulates with the updated configuration data to update StateOfCharge()
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+*/
+
 void BQ27441_G1_ExitResim (bq27441_g1_t * bq27441_g1)
 {
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_CONTROL_CMD, BQ27441_G1_EXIT_RESIM_SUBCMD);
@@ -308,6 +583,12 @@ void BQ27441_G1_ExitResim (bq27441_g1_t * bq27441_g1)
 
 /* ________________EXTENDED COMMANDS FUNCTION_______________ */
 
+/*!
+\brief Getting value of the  Operation Configuration Register (which is most useful for system level debug to quickly determine device configuration)
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of the Operation Configuration Register
+*/
+
 uint16_t BQ27441_G1_GetOpConfig(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
@@ -316,16 +597,17 @@ uint16_t BQ27441_G1_GetOpConfig(bq27441_g1_t * bq27441_g1)
 	return buffer;
 }
 
+/*!
+\brief Getting value of the  Operation Configuration Register (which is most useful for system level debug to quickly determine device configuration)
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of the capacity in mAh
+*/
+
 uint16_t BQ27441_G1_GetDesignCapacity(bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_DESIGN_CAPACITY_CMD);
 	return buffer;
-}
-
-void BQ27441_G1_WriteDesignCapacity(bq27441_g1_t * bq27441_g1, uint16_t value)
-{
-	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_DESIGN_CAPACITY_CMD, value);
 }
 
 /*void BQ27441_G1_WriteDataClass (bq27441_g1_t * bq27441_g1, uint8_t value)
@@ -334,13 +616,22 @@ void BQ27441_G1_WriteDesignCapacity(bq27441_g1_t * bq27441_g1, uint16_t value)
 
 }*/
 
-uint16_t BQ27441_G1_GetDataBlock (bq27441_g1_t * bq27441_g1, uint8_t value)
+/*!
+\brief Setting the data block to be accessed. When 0x00 is written to BlockDataControl(), DataBlock() holds the block number of the data to be read or written.
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\param [in] value value = 0x00 to access data located at offset 0 to 31, value = 0x01 to access data located at offset 32 to 41.
+\return Value of the data block
+*/
+
+uint16_t BQ27441_G1_GetDataBlock (bq27441_g1_t * bq27441_g1, //uint8_t value)
 {
 	uint16_t buffer;
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_DATA_BLOCK_CMD, value);
 	buffer = bq27441_g1->Read(BQ27441_G1_ADDR, BQ27441_G1_DATA_BLOCK_CMD);
 	return buffer;
 }
+
+
 
 /*uint16_t BQ27441_G1_BlockData (bq27441_g1_t * bq27441_g1)
 {
@@ -349,6 +640,13 @@ uint16_t BQ27441_G1_GetDataBlock (bq27441_g1_t * bq27441_g1, uint8_t value)
 	return buffer;
 }*/
 
+
+/*!
+\brief Getting value of checksum on the 32 bytes of block data
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+\return Value of checksum
+*/
+
 uint16_t BQ27441_G1_GetChecksum (bq27441_g1_t * bq27441_g1)
 {
 	uint16_t buffer;
@@ -356,11 +654,16 @@ uint16_t BQ27441_G1_GetChecksum (bq27441_g1_t * bq27441_g1)
 	return buffer;
 }
 
-void BQ27441_G1_WriteChecksum (bq27441_g1_t * bq27441_g1, uint16_t value)
+/*void BQ27441_G1_WriteChecksum (bq27441_g1_t * bq27441_g1, uint16_t value)
 {
 	bq27441_g1->Write(BQ27441_G1_ADDR,BQ27441_G1_BLOCK_DATA_CHECKSUM_CMD, value);
-}
+}*/
 
+/*!
+\brief Used to control the data access mode. Writing 0x00 to this command enables BlockData() to access to RAM.
+\param [in] bq27441_g1 Initialized variable of type bq27441_g1
+*/ 
+ 
 void BQ27441_G1_BlockDataControl (bq27441_g1_t * bq27441_g1)
 {
 
