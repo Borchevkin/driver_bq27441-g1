@@ -104,7 +104,7 @@ float BQ27441_G1_GetTemperature(bq27441_g1_t * bq27441_g1)
 }
 
 /*!
-\brief Getting value of the measured cell-pack voltage in mV with a range of 0 to 6000 mV 
+\brief Getting value of the measured cell-pack voltage with a range of 0 to 6000 mV 
 \param [in] bq27441_g1 Initialized variable of type bq27441_g1_t
 \return Value of voltage in mV
 */
@@ -366,7 +366,7 @@ void BQ27441_G1_GetControlStatus(bq27441_g1_t * bq27441_g1)
 }
 
 /*!
-\brief Reports the device typ
+\brief Reports the device type
 \param [in] bq27441_g1 Initialized variable of type bq27441_g1_t
 \return Value of device type (0x0421)
 */
@@ -436,8 +436,8 @@ uint16_t BQ27441_G1_GetChemId(bq27441_g1_t * bq27441_g1)
 }
 
 /*!
-\brief Forces the Flags() [BAT_DET] bit to set when the battery insertion detection is disabled via OpConfig
-[BIE] = 0. In this case, the gauge does not detect battery insertion from the BIN pin logic state, but relies
+\brief Forces the Flags() [BAT_DET] bit to set when the battery insertion detection is disabled via OpConfig [BIE] = 0. 
+In this case, the gauge does not detect battery insertion from the BIN pin logic state, but relies
 on the BAT_INSERT host subcommand to indicate battery presence in the system.
 \param [in] bq27441_g1 Initialized variable of type bq27441_g1_t
 */
@@ -460,9 +460,8 @@ void BQ27441_G1_BatRemove (bq27441_g1_t * bq27441_g1)
 }
 
 /*!
-\brief Instructs the fuel gauge to force the CONTROL_STATUS [HIBERNATE] bit to 1. If the necessary
-conditions are met, this enables the gauge to enter the HIBERNATE power mode after the transition to
-SLEEP power state is detected.
+\brief Instructs the fuel gauge to force the CONTROL_STATUS [HIBERNATE] bit to 1. If the necessary conditions are met, 
+this enables the gauge to enter the HIBERNATE power mode after the transition to SLEEP power state is detected.
 \param [in] bq27441_g1 Initialized variable of type bq27441_g1_t
 */
 
@@ -553,7 +552,7 @@ void BQ27441_G1_SoftReset (bq27441_g1_t * bq27441_g1)
 }
 
 /*!
-\brief Exits CONFIG UPDATE mode without an OCV measurement and without resimulating to update StateOfCharge()
+\brief Exits CONFIG UPDATE mode without an OCV (open-circuit voltage) measurement and without resimulating to update StateOfCharge()
 \param [in] bq27441_g1 Initialized variable of type bq27441_g1_t
 */
 
@@ -598,7 +597,7 @@ uint16_t BQ27441_G1_GetOpConfig(bq27441_g1_t * bq27441_g1)
 }
 
 /*!
-\brief Getting value of the  Operation Configuration Register (which is most useful for system level debug to quickly determine device configuration)
+\brief Getting Design Capacity Data Memory value (which is most useful for system level debug to quickly determine device configuration)
 \param [in] bq27441_g1 Initialized variable of type bq27441_g1_t
 \return Value of the capacity in mAh
 */
